@@ -1,0 +1,13 @@
+.toggle-container {
+  width: 50px;
+  height: 20px;
+  border-radius: 15px;
+  background-color: #526879;
+}
+
+.toggle-btn {
+  width: 20px;
+  border-radius: 50%;
+  background-color: #182580;
+  cursor: pointer;
+}
