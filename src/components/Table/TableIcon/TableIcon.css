@@ -1,0 +1,22 @@
+.table-icon-container {
+  position: absolute;
+  width: 90px;
+  border-bottom-right-radius: 25px;
+  top: 40%;
+  background-color: #282f44;
+}
+
+.table-icon-container:hover {
+  cursor: pointer;
+}
+
+.table-icon-container:hover .table-icon {
+  color: #e2942e;
+}
+
+.table-icon {
+  font-size: 50px;
+  background-attachment: fixed;
+  color: lightblue;
+  transition: color 0.5s linear;
+}

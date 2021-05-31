@@ -27,3 +27,24 @@ export const list = [
     coast: 15,
   },
 ];
+
+export const drinks = [
+  {
+    hot: [
+      { id: 0, name: "tee", price: 10 },
+      { id: 1, name: "coffe", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+    ],
+  },
+  {
+    cold: [
+      { id: 0, name: "pepse", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+      { id: 1, name: "fresh mango", price: 10 },
+    ],
+  },
+];
