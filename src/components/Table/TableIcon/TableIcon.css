@@ -1,5 +1,5 @@
 .table-icon-container {
-  position: absolute;
+  position: fixed;
   width: 90px;
   border-bottom-right-radius: 25px;
   top: 40%;
@@ -11,7 +11,7 @@
 }
 
 .table-icon-container:hover .table-icon {
-  color: #e2942e;
+  color: #3de22ed3;
 }
 
 .table-icon {

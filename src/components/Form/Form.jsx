@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import "./form.css";
 import { FaPlaystation } from "react-icons/fa";
 import ToggleBtn from "./ToggleBtn/ToggleBtn";
-export default function Form() {
+export default function Form({ submitHandler, deviceNum, deviceNumHandler }) {
   return (
     <div className="form-container my-4 py-3">
-      <form action="">
+      <form onSubmit={submitHandler}>
         <div className="align-items-center py-3">
           <div className="d-flex justify-content-around">
             <div className="d-flex align-items-start">
               <label htmlFor="device-number">
                 <p className="m-0">device number:</p>
               </label>
-              <input type="number" name="device-number" className="mx-3" />
+              <input
+                type="number"
+                name="device-number"
+                className="mx-3"
+                value={deviceNum}
+                onChange={(e) => {
+                  deviceNumHandler(e);
+                }}
+              />
             </div>
             <div className="d-flex align-items-center">
               <p className="my-0">single</p>

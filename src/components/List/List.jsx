@@ -1,17 +1,22 @@
 import React from "react";
-import "./list.css";
-import { list } from "../../data";
 import ItemModal from "./ItemModal/ItemModal";
-export default function List() {
+import styled from "styled-components";
+export default function List({ listOfDevices }) {
   return (
-    <main className="list py-4">
-      {list.map((item) => {
+    <ListContainer className="list py-4">
+      {listOfDevices.map((item) => {
         return (
-          <div>
-            <ItemModal item={item} />
+          <div key={item.id} className="px-2">
+            <ItemModal device={item} />
           </div>
         );
       })}
-    </main>
+    </ListContainer>
   );
 }
+
+const ListContainer = styled.div`
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  color: antiquewhite;
+`;
