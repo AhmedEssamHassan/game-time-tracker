@@ -7,40 +7,7 @@ import Table from "./components/Table/Table";
 import TableIcon from "./components/Table/TableIcon/TableIcon";
 import { list } from "./data";
 
-const reducer = (state, action) => {
-  if (action.type === "CLOSE_WARNING_MODEL") {
-    return { ...state, showWarning: false };
-  }
-
-  /* update the list of devices */
-  if (action.type === "ADD") {
-    return {
-      ...state,
-      listOfDevices: [...state.listOfDevices, action.payload],
-      openDevicesNumbers: [
-        ...state.openDevicesNumbers,
-        action.payload.deviceNumber,
-      ],
-      showWarning: false,
-    };
-  }
-  if (action.type === "INVALID_NUMBER") {
-    /* show the warning modal */
-    return {
-      ...state,
-      showWarning: true,
-      modalContent: "device number should be between 1 to 4",
-    };
-  }
-
-  if (action.type === "DEVICE_INCLUDED") {
-    return {
-      ...state,
-      showWarning: true,
-      modalContent: "this device is already oppened",
-    };
-  }
-};
+import { reducer } from "./reducer";
 
 const defaultState = {
   listOfDevices: list,
@@ -51,6 +18,7 @@ const defaultState = {
 
 function App() {
   const [deviceNum, setDeviceNum] = useState("");
+  const [isMulty, seIsMulty] = useState(false);
   const [state, dispatch] = useReducer(reducer, defaultState);
 
   const deviceNumHandler = (e) => {
@@ -59,16 +27,16 @@ function App() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    /* if user intered number that suit the number of devices */
 
+    /* if user intered number that suit the number of devices */
     if (deviceNum >= 1 && deviceNum <= 4) {
       const isDeviceIncluded = state.openDevicesNumbers.includes(deviceNum);
-      console.log(isDeviceIncluded);
 
       const addDevice = () => {
         const newDevice = {
           id: new Date().getTime().toString(),
           deviceNumber: deviceNum,
+          liveDuration: 55,
         };
         return dispatch({ type: "ADD", payload: newDevice });
       };
@@ -76,17 +44,30 @@ function App() {
       !isDeviceIncluded ? addDevice() : dispatch({ type: "DEVICE_INCLUDED" });
       setDeviceNum("");
     }
+    /* if user intered number that dose not suit the number of devices */
     if (!deviceNum || deviceNum < 1) {
       dispatch({ type: "INVALID_NUMBER" });
     }
-
+    /* if user intered number of a device that is allready oppened */
     if (deviceNum === state.openDevicesNumbers) {
       dispatch({ type: "DEVICE_IS_ALREADT_OPPENED" });
+    }
+
+    /* chick condition multy/single */
+    if (state.isMulty) {
+      dispatch({ type: "MULTY_CONDITION" });
+    }
+    if (!state.isMulty) {
+      dispatch({ type: "SINGLE_CONDITION" });
     }
   };
 
   const hideWarning = () => {
     dispatch({ type: "CLOSE_WARNING_MODEL" });
+  };
+
+  const toggleHandler = () => {
+    seIsMulty(!isMulty);
   };
 
   return (
@@ -101,8 +82,15 @@ function App() {
           deviceNum={deviceNum}
           deviceNumHandler={deviceNumHandler}
           submitHandler={submitHandler}
+          isMulty={isMulty}
+          toggleHandler={toggleHandler}
         />
-        <List listOfDevices={state.listOfDevices} />
+        <List
+          isMulty={isMulty}
+          listOfDevices={state.listOfDevices}
+          liveDuration={state.liveDuration}
+          toggleHandler={toggleHandler}
+        />
         {/* <Table /> */}
       </main>
       <TableIcon />

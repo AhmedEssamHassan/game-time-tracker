@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import "./form.css";
 import { FaPlaystation } from "react-icons/fa";
 import ToggleBtn from "./ToggleBtn/ToggleBtn";
-export default function Form({ submitHandler, deviceNum, deviceNumHandler }) {
+
+export default function Form({
+  submitHandler,
+  deviceNum,
+  deviceNumHandler,
+  toggleHandler,
+  isMulty,
+}) {
   return (
     <div className="form-container my-4 py-3">
       <form onSubmit={submitHandler}>
@@ -24,7 +31,7 @@ export default function Form({ submitHandler, deviceNum, deviceNumHandler }) {
             </div>
             <div className="d-flex align-items-center">
               <p className="my-0">single</p>
-              <ToggleBtn />
+              <ToggleBtn toggleHandler={toggleHandler} isMulty={isMulty} />
               <p className="my-0">multy</p>
             </div>
           </div>
