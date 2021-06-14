@@ -1,9 +1,6 @@
 .table-icon-container {
-  position: fixed;
   width: 90px;
   border-bottom-right-radius: 25px;
-  top: 40%;
-  background-color: #282f44;
 }
 
 .table-icon-container:hover {

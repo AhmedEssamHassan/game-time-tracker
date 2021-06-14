@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer, useState, useEffect } from "react";
 import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
@@ -8,6 +8,15 @@ import TableIcon from "./components/Table/TableIcon/TableIcon";
 import { list } from "./data";
 
 import { reducer } from "./reducer";
+
+const getLocalStorage = () => {
+  let list = localStorage.getItem("list");
+  if (list) {
+    return JSON.parse(localStorage.getItem("list"));
+  } else {
+    return [];
+  }
+};
 
 const defaultState = {
   listOfDevices: list,
@@ -70,6 +79,11 @@ function App() {
     seIsMulty(!isMulty);
   };
 
+  /* local storage */
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(state.listOfDevices));
+  }, [state.listOfDevices]);
+
   return (
     <div className="App">
       <Header
@@ -93,7 +107,6 @@ function App() {
         />
         {/* <Table /> */}
       </main>
-      <TableIcon />
     </div>
   );
 }

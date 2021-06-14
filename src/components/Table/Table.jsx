@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Table.css";
 import { drinks } from "../../data";
 import { IoMdClose } from "react-icons/io";
-export default function Table() {
+export default function Table({ showTable, setShowTable }) {
   return (
     <div className="products-container d-flex justify-content-center">
       <div className="products py-4 text-capitalize">
-        <div className="close-icon">
+        <div className="close-icon" onClick={() => setShowTable(false)}>
           <IoMdClose />
         </div>
         <section className="hot-drinks">
