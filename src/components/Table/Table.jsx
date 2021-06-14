@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import "./Table.css";
 import { drinks } from "../../data";
 import { IoMdClose } from "react-icons/io";
-export default function Table({ showTable, setShowTable }) {
+export default function Table({
+  setShowTable,
+  drinksCoast,
+  setDrinksCoast,
+  drinksList,
+  setDrinksList,
+}) {
   return (
     <div className="products-container d-flex justify-content-center">
       <div className="products py-4 text-capitalize">
@@ -17,10 +23,24 @@ export default function Table({ showTable, setShowTable }) {
           <div className="d-flex flex-wrap justify-content-around p-4">
             {drinks[0].hot.map((item) => {
               return (
-                <div className="single-drink m-2 d-flex flex-column align-items-center py-2">
+                <div
+                  className="single-drink m-2 d-flex flex-column align-items-center py-2"
+                  style={{ color: "black" }}
+                >
                   <p>{item.name}</p>
                   <p>{item.price} L.E</p>
-                  <button className="add-btn btn btn-success">add</button>
+                  <button
+                    className="add-btn btn btn-success"
+                    onClick={() => {
+                      setDrinksCoast(drinksCoast + item.price);
+                      setDrinksList([
+                        ...drinksList,
+                        { name: item.name, price: item.price },
+                      ]);
+                    }}
+                  >
+                    add
+                  </button>
                 </div>
               );
             })}
@@ -37,7 +57,10 @@ export default function Table({ showTable, setShowTable }) {
           <div className="d-flex flex-wrap justify-content-around p-4">
             {drinks[1].cold.map((item) => {
               return (
-                <div className="single-drink m-2 d-flex flex-column align-items-center py-2">
+                <div
+                  className="single-drink m-2 d-flex flex-column align-items-center py-2"
+                  style={{ color: "black" }}
+                >
                   <p>{item.name}</p>
                   <p>{item.price} L.E</p>
                   <button className="add-btn btn btn-success">add</button>

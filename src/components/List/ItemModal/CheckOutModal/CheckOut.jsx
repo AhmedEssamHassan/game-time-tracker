@@ -7,6 +7,8 @@ export default function CheckOut({
   device,
   details,
   closeCheckOutModal,
+  drinksCoast,
+  drinksList,
 }) {
   return (
     <CheckOutModal className={isCheckoutModalOpen ? "d-block" : "d-none"}>
@@ -39,8 +41,28 @@ export default function CheckOut({
               </ListItem>
             );
         })}
+        {drinksCoast ? (
+          <ListItem>
+            <h3>exstra</h3>
+            {drinksList.map((item) => {
+              return (
+                <div className="d-flex justify-content-between align-items-center m-0">
+                  <p
+                    className="w-100 h-100 m-0 py-2"
+                    style={{ borderRight: "1px solid black" }}
+                  >
+                    {item.name}
+                  </p>
+                  <p className="w-100 m-0 py-2">{item.price}</p>
+                </div>
+              );
+            })}
+          </ListItem>
+        ) : (
+          ""
+        )}
         <ListItem className="d-flex justify-content-around align-items-center">
-          <P>total coast: {totalCoast.toFixed(2)}</P>
+          <P>total coast: {(drinksCoast + totalCoast).toFixed(2)}</P>
         </ListItem>
       </UL>
     </CheckOutModal>
@@ -61,7 +83,7 @@ const UL = styled.ul`
 `;
 
 const ListItem = styled.li`
-  height: 50px;
+  min-height: 50px;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   border-left: 1px solid black;

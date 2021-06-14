@@ -6,7 +6,7 @@ import ItemToggleBtn from "./ItemToggleBtn/ItemToggleBtn";
 import TableIcon from "../../Table/TableIcon/TableIcon";
 import Table from "../../Table/Table";
 export default function ItemModal({ device, isMulty }) {
-  const [sec, setSec] = useState(0);
+  const [sec, setSec] = useState(new Date().getSeconds());
   const [min, setMin] = useState(0);
   const [hour, setHour] = useState(0);
   const [timeInMuinets, setTimeInMunites] = useState(0);
@@ -20,29 +20,31 @@ export default function ItemModal({ device, isMulty }) {
   const [printedCindition, setPrintedCindition] = useState("");
   const [details, setDetails] = useState([]);
   const [showTable, setShowTable] = useState(false);
-
+  const [drinksCoast, setDrinksCoast] = useState(0);
+  const [drinksList, setDrinksList] = useState([]);
   const drinksTableHandler = () => {
     setShowTable(true);
   };
   /* showing time counter */
   useEffect(() => {
-    if (sec >= 0 && sec <= 59) {
-      setTimeout(() => {
-        setSec(new Date().getSeconds());
-      }, 1000);
-    }
-    if (sec === 59) {
+    setTimeout(() => {
+      setSec(new Date().getSeconds());
+    }, 1000);
+
+    if (sec === 0) {
       setMin(min + 1);
       setTimeInMunites(timeInMuinets + 1);
       setCoast(isMultyCondition ? 0.25 : 0.17);
       setTotalCoast(totalCoast + coastperMunit);
     }
+
     if (min === 60) {
       setMin(0);
       setHour(hour + 1);
     }
   }, [sec]);
 
+  /* to set the start time */
   useEffect(() => {
     const date = new Date();
     setIsMultyCondition(isMulty ? true : false);
@@ -119,11 +121,20 @@ export default function ItemModal({ device, isMulty }) {
             isCheckoutModalOpen={isCheckoutModalOpen}
             details={details}
             closeCheckOutModal={closeCheckOutModal}
+            drinksCoast={drinksCoast}
+            drinksList={drinksList}
           />
         </div>
       </ListItem>
       {showTable ? (
-        <Table showTable={showTable} setShowTable={setShowTable} />
+        <Table
+          showTable={showTable}
+          setShowTable={setShowTable}
+          drinksCoast={drinksCoast}
+          setDrinksCoast={setDrinksCoast}
+          drinksList={drinksList}
+          setDrinksList={setDrinksList}
+        />
       ) : (
         ""
       )}
