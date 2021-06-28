@@ -5,10 +5,15 @@ import CheckOut from "./CheckOutModal/CheckOut";
 import ItemToggleBtn from "./ItemToggleBtn/ItemToggleBtn";
 import TableIcon from "../../Table/TableIcon/TableIcon";
 import Table from "../../Table/Table";
-export default function ItemModal({ device, isMulty }) {
-  const [sec, setSec] = useState(new Date().getSeconds());
+export default function ItemModal({ device, isMulty, updatedTime }) {
+  const [sec, setSec] = useState(0);
   const [min, setMin] = useState(0);
   const [hour, setHour] = useState(0);
+
+  const [upSec, setUpSec] = useState(0);
+  const [upMin, setupMin] = useState(0);
+  const [upHur, setupHur] = useState(0);
+
   const [timeInMuinets, setTimeInMunites] = useState(0);
   const [totalCoast, setTotalCoast] = useState(0);
   const [coastperMunit, setCoast] = useState(0);
@@ -22,27 +27,33 @@ export default function ItemModal({ device, isMulty }) {
   const [showTable, setShowTable] = useState(false);
   const [drinksCoast, setDrinksCoast] = useState(0);
   const [drinksList, setDrinksList] = useState([]);
+  const [interevalId, setInterevalId] = useState(null);
+  const [startPoint, setStartPoint] = useState(+new Date().getTime());
+  const [timeDifference, setTimeDifference] = useState(0);
   const drinksTableHandler = () => {
     setShowTable(true);
   };
-  /* showing time counter */
+  /* timer */
   useEffect(() => {
-    setTimeout(() => {
-      setSec(new Date().getSeconds());
+    const id = setInterval(() => {
+      setSec((sec) => sec + 1);
     }, 1000);
+    setInterevalId(id);
+    return clearInterval(interevalId);
+  }, []);
 
-    if (sec === 0) {
-      setMin(min + 1);
-      setTimeInMunites(timeInMuinets + 1);
-      setCoast(isMultyCondition ? 0.25 : 0.17);
-      setTotalCoast(totalCoast + coastperMunit);
-    }
+  if (sec === 60) {
+    setSec(0);
+    setMin(min + 1);
+    setTimeInMunites(timeInMuinets + 1);
+    setCoast(isMultyCondition ? 0.25 : 0.17);
+    setTotalCoast(totalCoast + coastperMunit);
+  }
 
-    if (min === 60) {
-      setMin(0);
-      setHour(hour + 1);
-    }
-  }, [sec]);
+  if (min === 60) {
+    setMin(0);
+    setHour(hour + 1);
+  }
 
   /* to set the start time */
   useEffect(() => {
@@ -80,6 +91,31 @@ export default function ItemModal({ device, isMulty }) {
   const closeCheckOutModal = () => {
     setCheckoutModalOpen(false);
   };
+
+  const msToTime = (duration) => {
+    let milliseconds = Math.floor((duration % 1000) / 100),
+      seconds = Math.floor((duration / 1000) % 60),
+      minutes = Math.floor((duration / (1000 * 60)) % 60),
+      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    return `${hours}:${minutes}:${seconds}`;
+  };
+
+  /* update time deferance */
+  useEffect(() => {
+    setTimeDifference(updatedTime - startPoint);
+    const time = msToTime(timeDifference);
+    const arrTime = time.split(":");
+    setSec(parseInt(arrTime[2]));
+    setMin(parseInt(arrTime[1]));
+    setHour(parseInt(arrTime[0]));
+    const totalMin = parseInt(arrTime[1]) + parseInt(arrTime[0]) * 60;
+    setTotalCoast(coastperMunit * totalMin);
+  }, [updatedTime]);
 
   return (
     <div>
@@ -144,7 +180,7 @@ export default function ItemModal({ device, isMulty }) {
 
 const ListItem = styled.div`
   height: auto;
-  background-color: #282f44;
+  background-color: #171b1f;
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
 `;

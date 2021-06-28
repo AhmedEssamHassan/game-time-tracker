@@ -35,7 +35,7 @@ export default function Form({
               <p className="my-0">multy</p>
             </div>
           </div>
-          <button className="submit-btn btn btn-success mt-4" type="submit">
+          <button className="submit-btn btn mt-4" type="submit">
             <p className="m-0">Start Time</p>
             <FaPlaystation className="playstation-icon text-warning" />
           </button>

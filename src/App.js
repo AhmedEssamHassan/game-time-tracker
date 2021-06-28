@@ -3,8 +3,6 @@ import "./App.css";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
 import List from "./components/List/List";
-import Table from "./components/Table/Table";
-import TableIcon from "./components/Table/TableIcon/TableIcon";
 import { list } from "./data";
 
 import { reducer } from "./reducer";
@@ -28,6 +26,7 @@ const defaultState = {
 function App() {
   const [deviceNum, setDeviceNum] = useState("");
   const [isMulty, seIsMulty] = useState(false);
+  const [updatedTime, setUpdatedTime] = useState(0);
   const [state, dispatch] = useReducer(reducer, defaultState);
 
   const deviceNumHandler = (e) => {
@@ -79,6 +78,11 @@ function App() {
     seIsMulty(!isMulty);
   };
 
+  /* refresh and calculate the time between start point and refresh click */
+  const refreshHandler = () => {
+    setUpdatedTime(new Date().getTime());
+  };
+
   /* local storage */
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(state.listOfDevices));
@@ -99,11 +103,14 @@ function App() {
           isMulty={isMulty}
           toggleHandler={toggleHandler}
         />
+
         <List
           isMulty={isMulty}
           listOfDevices={state.listOfDevices}
           liveDuration={state.liveDuration}
           toggleHandler={toggleHandler}
+          updatedTime={updatedTime}
+          refreshHandler={refreshHandler}
         />
         {/* <Table /> */}
       </main>
